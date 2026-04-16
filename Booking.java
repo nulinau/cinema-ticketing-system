@@ -1,59 +1,56 @@
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Booking {
+
     private String bookingId;
-    private String bookingDate;
+    private Date bookingDate;
     private double totalPrice;
+    private List<ConcessionItem> concession;
 
-    private ArrayList<Seat> seats;
-    private ArrayList<ConcessionItem> concessions;
-
-    public Booking(String bookingId, String bookingDate) {
+    public Booking(String bookingId, Date bookingDate) {
         this.bookingId = bookingId;
         this.bookingDate = bookingDate;
-        seats = new ArrayList<>();
-        concessions = new ArrayList<>();
+        this.concession = new ArrayList<>();
+        this.totalPrice = 0.0;
     }
 
-    
     public boolean selectSeat(Seat seat) {
-        if (seat.getStatus().equals("Booked")) {
-            System.out.println("Seat already booked!");
-            return false;
+        if (!seat.isBooked()) {
+            seat.bookSeat();
+            return true;
         }
-        seat.setStatus("Booked");
-        seats.add(seat);
-        return true;
+        return false;
     }
 
-    // Add concession
     public void addConcession(ConcessionItem item) {
-        concessions.add(item);
+        concession.add(item);
     }
 
-    // Calculate total
     public double calcTotal() {
-        totalPrice = 0;
+        double total = 0.0;
 
-        for (ConcessionItem item : concessions) {
-            totalPrice += item.getPrice();
+        for (ConcessionItem item : concession) {
+            total += item.getPrice();
         }
 
-        totalPrice += seats.size() * 10;
+        this.totalPrice = total;
         return totalPrice;
     }
 
-    // Generate the  digital tickets for it
-    public String generateTicket() {
-        String ticket = "----- DIGITAL TICKET -----\n";
-        ticket += "Booking ID: " + bookingId + "\n";
-        ticket += "Seats: ";
+    // generate ticket
+    public void generateTicket() {
+        System.out.println("===== DIGITAL TICKET =====");
+        System.out.println("Booking ID: " + bookingId);
+        System.out.println("Date: " + bookingDate);
+        System.out.println("Total Price: RM " + totalPrice);
 
-        for (Seat s : seats) {
-            ticket += s.getSeatNo() + " ";
+        System.out.println("Concessions:");
+        for (ConcessionItem item : concession) {
+            System.out.println("- " + item.getName() + " (RM " + item.getPrice() + ")");
         }
 
-        ticket += "\nTotal Price: RM " + calcTotal();
-        return ticket;
+        System.out.println("==========================");
     }
 }
