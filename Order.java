@@ -1,20 +1,34 @@
-public class Order {
-    private String orderId;
-    private String orderDate;
-    private double totalAmount;
+import java.util.Date;
 
-    public Order(String orderId, String orderDate) {
+public class Order {
+
+    private String orderId;
+    private Date orderDate;
+    private double totalAmount;
+    private Customer orderByCustomer;
+
+    public Order() {
+    }
+
+    // Parameterized Constructor
+    public Order(String orderId, Date orderDate, double totalAmount, Customer orderByCustomer) {
         this.orderId = orderId;
         this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+        this.orderByCustomer = orderByCustomer;
     }
 
-    public boolean confirmOrder(double amount) {
-        totalAmount = amount;
-        System.out.println("Order confirmed!");
-        return true;
+    public boolean confirmOrder() {
+        if (orderByCustomer != null) {
+            System.out.println("Order confirmed for customer: " + orderByCustomer.getName());
+            return true;
+        }
+        System.out.println("Order failed: No customer assigned.");
+        return false;
     }
 
-    public void cancelOrder() {
-        System.out.println("Order cancelled.");
+    // Getter for orderId
+    public String getOrderId() {
+        return orderId;
     }
 }
