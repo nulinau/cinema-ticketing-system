@@ -43,6 +43,22 @@ public class Hall {
     	return screenSize;
     }
     
+    public void getRows(int row){
+    	this.row = row;
+    }
+    
+    public int setRows(){
+    	return row;
+    }
+    
+    public void getCols(int col){
+    	this.col = col;
+    }
+    
+    public int setCols(){
+    	return col;
+    }
+    
     //seatingCapacity getter and setter
     public void getSeatingCapacity(int seatingCapacity){
     	this.seatingCapacity = seatingCapacity;
@@ -85,5 +101,7 @@ public class Hall {
     public Seat getSeat(int r, int c) {
         return seatMap[r][c];
     }
+    
+    
 
 }
