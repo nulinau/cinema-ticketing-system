@@ -1,9 +1,10 @@
 
 public abstract class Seat {
 
-    private String seatNumber;
+    private String seatNumber; 
     private String status;
     private double basePrice;
+    protected boolean booked;
 
     public Seat() {
         this("A0", "Available", 0.0);
@@ -13,15 +14,20 @@ public abstract class Seat {
         this.seatNumber = seatNumber;
         this.status = "Available";
         this.basePrice = basePrice;
+        this.booked = false;
     }
 
-    public boolean isBooked() {
-        return this.status.equalsIgnoreCase("Booked");
-    }
 
+
+	public boolean isBooked() {
+       return booked;
+    }
+    
     public void bookSeat() {
+        this.booked = true;
         this.status = "Booked";
     }
+	
 
     public String getSeatNumber() {
         return seatNumber;
