@@ -1,15 +1,16 @@
 public class Movie {
-	
-	//属性
+
+    // 属性
     private String movieId;
     private String title;
     private String genre;
-    private int duration; 
+    private int duration;
     private String ageRating;
     private String language;
-	
-	//构筑方法
-    public Movie() {}
+
+    // 构筑方法
+    public Movie() {
+    }
 
     public Movie(String movieId, String title, String genre, int duration, String ageRating, String language) {
         this.movieId = movieId;
@@ -72,12 +73,11 @@ public class Movie {
     // toString方法
     @Override
     public String toString() {
-        return
-            "Movie ID: "+movieId
-           +"\nTitle: "+title
-           +"\nGenre: "+genre
-           +"\nDuration: "+duration
-           +"\nRating: "+ageRating
-           +"\nLanguage: "+language;
+        return "Movie ID: " + movieId
+                + "\nTitle: " + title
+                + "\nGenre: " + genre
+                + "\nDuration: " + duration
+                + "\nRating: " + ageRating
+                + "\nLanguage: " + language;
     }
 }
