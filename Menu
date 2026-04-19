@@ -1,0 +1,130 @@
+import java.util.Scanner;
+
+public class yoyo {
+    private int customerCount = 0;
+    private Customer[] customers = new Customer[100];
+    
+    // Note: Admin constructor matches your provided file structure
+    private Admin admin = new Admin(0, "Eddie Tang", "1234567890");
+
+    public static void main(String[] args) {
+        yoyo app = new yoyo();
+        // Pre-load data to ensure the system works
+        app.setupInitialData();
+        app.showMainMenu();
+    }
+
+    public void setupInitialData() {
+        Movie m1 = new Movie("M1", "Inception", "Sci-Fi", 148, "PG-13", "English");
+        admin.addMovie(m1);
+    }
+
+    public void showMainMenu() {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n--- Movie Cinema System ---");
+            System.out.println("1. Login");
+            System.out.println("2. Register (Customer Only)");
+            System.out.println("3. Exit");
+            System.out.print("Choice: ");
+            String choice = sc.nextLine();
+
+            if (choice.equals("1")) login();
+            else if (choice.equals("2")) register();
+            else {
+                sc.close();
+                break;
+            }
+        }
+    }
+
+    public void register() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Name: "); String name = sc.nextLine();
+        System.out.print("Enter Phone: "); String phone = sc.nextLine();
+        System.out.print("Enter Password: "); String pass = sc.nextLine();
+        
+        customers[customerCount] = new Customer(customerCount + 1000, name, pass, phone, admin);
+        customerCount++;
+        System.out.println("Registration successful!");
+        sc.close();
+    }
+
+    public void login() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Username: "); String name = sc.nextLine();
+        System.out.print("Password: "); String pass = sc.nextLine();
+
+        // Admin Login
+        if (name.equals(admin.getUserName()) && pass.equals(admin.getPassword())) {
+            System.out.println("Welcome Admin!");
+            adminMenu();
+            return;
+        } 
+        // Customer Login
+        else {
+            for (int i = 0; i < customerCount; i++) {
+                if (customers[i].getUserName().equals(name) && customers[i].getPassword().equals(pass)) {
+                    System.out.println("Welcome Customer!");
+                    customerMenu(customers[i]);
+                    return;
+                }
+            }
+            System.out.println("Login Failed.");
+        }
+        sc.close();
+    }
+
+    public void customerMenu(Customer c) {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n=== Customer Menu ===");
+            System.out.println("1. Order Ticket");
+            System.out.println("2. View Booking Details");
+            System.out.println("3. Logout");
+            String choice = sc.nextLine();
+            
+            if (choice.equals("1")) {
+                c.bookTicket();
+            } else if (choice.equals("2")) {
+                System.out.println("Displaying booking details...");
+            } else {
+                sc.close();
+                break;
+            }
+        }
+    }
+
+    public void adminMenu() {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n=== Admin Menu ===");
+            System.out.println("1. View Movies");
+            System.out.println("2. Add Movie");
+            System.out.println("3. Generate Report (Staff function)");
+            System.out.println("4. Logout");
+            String choice = sc.nextLine();
+            
+            switch (choice) {
+                case "1":
+                    admin.viewMovie();
+                    break;
+                case "2":
+                    System.out.print("ID: "); String id = sc.nextLine();
+                    System.out.print("Title: "); String title = sc.nextLine();
+                    admin.addMovie(new Movie(id, title, "Genre", 120, "PG", "English"));
+                    break;
+                case "3":
+                    // Staff function implementation
+                    System.out.println("Generating Sales Report...");
+                    break;
+                case "4":
+                    sc.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice, please try again.");
+                    break;
+            }
+        }
+    }
+}
